@@ -1,14 +1,14 @@
-import { useReducer, useEffect ,useState } from 'react';
-import {apiGet} from '../misc/config'
+import { useReducer, useEffect, useState } from "react";
+import { apiGet } from "../misc/config";
 
-function showsReducer(prevState , action){
-    switch(action.type){
-        case 'ADD':{
-            return [...prevState, action.showId]
+function showsReducer(prevState, action) {
+    switch (action.type) {
+        case "ADD": {
+            return [...prevState, action.showId];
         }
 
-        case 'REMOVE':{
-            return prevState.filter(showId => showId !== action.showId)
+        case "REMOVE": {
+            return prevState.filter((showId) => showId !== action.showId);
         }
 
         default:
@@ -16,38 +16,37 @@ function showsReducer(prevState , action){
     }
 }
 
-function usePersistedReducer(reducer , initialState , key) {
-
-    const [state , dispatch] = useReducer(reducer , initialState , (initial) =>{
+function usePersistedReducer(reducer, initialState, key) {
+    const [state, dispatch] = useReducer(reducer, initialState, (initial) => {
         const persisted = localStorage.getItem(key);
 
         return persisted ? JSON.parse(persisted) : initial;
     });
 
     useEffect(() => {
-        localStorage.setItem(key , JSON.stringify(state))
-    }, [state , key]);
+        localStorage.setItem(key, JSON.stringify(state));
+    }, [state, key]);
 
-    return [state , dispatch];
+    return [state, dispatch];
 }
 
-export function useShows(key = 'shows'){
-    return usePersistedReducer(showsReducer , [] , key)
+export function useShows(key = "shows") {
+    return usePersistedReducer(showsReducer, [], key);
 }
 
-export function useLastQuery(key = 'lastQuery'){
-    const [input, setInput] = useState( () => {
+export function useLastQuery(key = "lastQuery") {
+    const [input, setInput] = useState(() => {
         const persisted = sessionStorage.getItem(key);
 
         return persisted ? JSON.parse(persisted) : "";
     });
 
-    const setPersistedInput = newState => {
+    const setPersistedInput = (newState) => {
         setInput(newState);
-        sessionStorage.setItem(key , JSON.stringify(newState))
-    }
+        sessionStorage.setItem(key, JSON.stringify(newState));
+    };
 
-    return [input , setPersistedInput];
+    return [input, setPersistedInput];
 }
 
 const reducer = (prevState, action) => {
@@ -64,15 +63,12 @@ const reducer = (prevState, action) => {
     }
 };
 
-export function useShow(showId){
-    const [state, dispatch] = useReducer(
-        reducer,
-        {
-            show: null,
-            isLoading: true,
-            error: null,
-        }
-    );
+export function useShow(showId) {
+    const [state, dispatch] = useReducer(reducer, {
+        show: null,
+        isLoading: true,
+        error: null,
+    });
 
     // const [show, setShow] = useState(null);
     // const [isLoading, setIsLoading] = useState(true);

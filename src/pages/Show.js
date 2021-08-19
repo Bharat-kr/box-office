@@ -7,11 +7,10 @@ import Cast from "../components/show/Cast";
 import { ShowPageWrapper, InfoBlock } from "./Show.styled";
 import { useShow } from "../misc/custom-hooks";
 
-
 const Show = () => {
     const { id } = useParams();
 
-    const {show , isLoading , error}= useShow(id);
+    const { show, isLoading, error } = useShow(id);
 
     console.log("show", show);
 
