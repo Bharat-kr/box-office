@@ -4,7 +4,8 @@ import { StyledShowCard } from "./ShowCard.styled";
 
 import { Star } from "../../styled";
 
-const ShowCard = ({ id, image, name, summary, onStarClick ,isStarred}) => {
+const ShowCard = ({ id, image, name, summary, onStarClick, isStarred }) => {
+
     const summaryAsText = summary
         ? `${summary
               .split(" ")
